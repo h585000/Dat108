@@ -2,6 +2,7 @@ package kkkkk;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -25,50 +26,55 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		
-		String loginMessage = "";
-
-		if (request.getParameter("requiresLogin") != null) {
-			loginMessage = "Forespørselen din krever pålogging. " + "(Du kan ha blitt logget ut automatisk)";
-
-		} else if (request.getParameter("invalidUsername") != null) {
-			loginMessage = "Ugyldig brukernavn eller passord";
-		}
-
-		request.setAttribute("loginMessage", loginMessage);
 
 		request.getRequestDispatcher("WEB-INF/Loggin.jsp").forward(request, response);
-	}
 	
 
-	
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Validering val = new Validering(request);
 		
-		
-	
 		String Smobil = request.getParameter("mobil");
 		//int mobil = Integer.parseInt(Smobil);
 		String passord = request.getParameter("passord");
+		
+		request.getSession().setAttribute("mobil", request.getParameter("mobil"));
 		
 		
 		
 		
 		Bruker bruker1 = brukerDAO.hentBruker(Smobil);
 		
-		response.setContentType("text/plain");
+		String salt = bruker1.getPassord().getPwd_salt();
+		String hash = PassordHjelper.hashMedSalt2(passord, salt);
+		
+		System.out.println(salt);
+		System.out.println(hash);
+		
+		Passord pass = new Passord(salt,hash);
+		bruker1.getPassord().getPwd_hash();
 		
 		
 		
-			if(bruker1!=null) {
+		
+		
+		 
+			if(bruker1!=null ) {
 				
-				System.out.println("mobilnr stemmer");
-				System.out.println("passordhash: " + bruker1.getPassord().getPwd_hash());
-				System.out.println("passordhash2: " + PassordHjelper.hashMedSalt2(passord, bruker1.getPassord().getPwd_salt()));
+				
+				
+				System.out.println(bruker1.getPassord());
+				
+			
 
 				
-				if(PassordHjelper.validerMedSalt2(passord, bruker1.getPassord().getPwd_salt(), bruker1.getPassord().getPwd_hash())) {
+				if(bruker1.getPassord().equals(pass)) {
 					System.out.println("Passord stemmer også");
 					response.sendRedirect("/deltagerliste");
 	
+		}		else {
+			response.sendRedirect("/Oblig4/Login");
+			request.getSession().setAttribute("feilmelding", "Passordet er feil vennligst prøv igjen");
 		}
 		
 		
@@ -80,7 +86,10 @@ public class Login extends HttpServlet {
 			}
 	
 
+
 	}
+	
 }
+
 
 	
