@@ -48,7 +48,7 @@ public class Validering {
 	}
 	
 	public boolean erPassordGyldig() {
-		return passord != null && passord.length() >= 8 && passord.equals(passord2);
+		return passord != null && passord.length() <= 8 && passord.equals(passord2);
 	}
 
 	public String getFornavn() {

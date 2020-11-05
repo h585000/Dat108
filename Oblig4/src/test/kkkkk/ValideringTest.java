@@ -11,7 +11,7 @@ public class ValideringTest {
 
 	@Test
 	public void erGyldigTest() {
-		Validering val = new Validering("Kjetil", "Johansen", "95335603", "qwerty", "qwerty", "mann");
+		Validering val = new Validering("Kjetil", "Johansen", "95335603", "pass", "pass", "mann");
 		assertTrue(val.erFornavnGyldig());
 		assertTrue(val.erEtternavnGyldig());
 		assertTrue(val.erMobilGyldig());
@@ -21,7 +21,7 @@ public class ValideringTest {
 	
 	@Test
 	public void erUgyldigTest() {
-		Validering val = new Validering("Kjet", "Johan", "953356031", "pass2", "pass", null);
+		Validering val = new Validering("K", "Johan", "953356031", "pass2", "pass", null);
 		assertFalse(val.erFornavnGyldig());
 		assertFalse(val.erEtternavnGyldig());
 		assertFalse(val.erMobilGyldig());

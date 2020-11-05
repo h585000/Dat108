@@ -12,7 +12,7 @@ public class Passord {
 	private String pwd_hash;
     private String pwd_salt;
     
-	Passord(String hash, String salt) {
+	Passord(String salt, String hash) {
 		pwd_hash = hash;
 		pwd_salt = salt;
 	}

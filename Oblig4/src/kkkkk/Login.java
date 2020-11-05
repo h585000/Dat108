@@ -45,14 +45,7 @@ public class Login extends HttpServlet {
 		
 		Bruker bruker1 = brukerDAO.hentBruker(Smobil);
 		
-		String salt = bruker1.getPassord().getPwd_salt();
-		String hash = PassordHjelper.hashMedSalt2(passord, salt);
 		
-		System.out.println(salt);
-		System.out.println(hash);
-		
-		Passord pass = new Passord(salt,hash);
-		bruker1.getPassord().getPwd_hash();
 		
 		
 		
@@ -63,14 +56,14 @@ public class Login extends HttpServlet {
 				
 				
 				
-				System.out.println(bruker1.getPassord());
+				System.out.println("passord til bruker 1"+ bruker1.getPassord());
 				
 			
 
+				if(PassordHjelper.validerMedSalt2(passord, bruker1.getPassord().getPwd_salt(), bruker1.getPassord().getPwd_hash())) {
 				
-				if(bruker1.getPassord().equals(pass)) {
 					System.out.println("Passord stemmer også");
-					response.sendRedirect("/deltagerliste");
+					response.sendRedirect("/Oblig4/deltagerliste");
 	
 		}		else {
 			response.sendRedirect("/Oblig4/Login");
@@ -83,6 +76,10 @@ public class Login extends HttpServlet {
 		
 				
 			
+			}else {
+				response.sendRedirect("/Oblig4/Login");
+				request.getSession().setAttribute("feilmelding", "Telefonummere fins ikke i databasen");
+				
 			}
 	
 

@@ -30,7 +30,7 @@
 			<div class="pure-control-group">
 				<label for="mobil">Mobil (8 siffer):</label> <input type="text"
 					name="mobil" value="" 
-					Placeholder="mobilnummer" pattern=".{8,}" 
+					Placeholder="mobilnummer" required minlength="8" maxlength="8"" 
 					/> 
 					
 			</div>

@@ -49,14 +49,14 @@ public class PaameldingServlet extends HttpServlet {
 		Bruker b = brukerliste.stream().filter(i -> i.getMobil().equals(val.getMobil())).findAny().orElse(null);
 		
 		if(b != null && !passord.equals(passordrep)) {
-			System.out.println("tlf ikke gydlig");
+			
 			request.setAttribute("feilmelding", "Mobilnummer er allerede registrert. Passord og passordrepetert er ikke like");
 			
 			request.getRequestDispatcher("WEB-INF/Paameldingsskjema.jsp").forward(request, response);
 		
 		}
 			else if(b != null ) {
-				System.out.println("tlf ikke gydlig");
+				
 				request.setAttribute("feilmelding", "Mobilnummer er allerede registrert.");
 				request.getRequestDispatcher("WEB-INF/Paameldingsskjema.jsp").forward(request, response);
 			}
@@ -84,8 +84,7 @@ public class PaameldingServlet extends HttpServlet {
 		 
 		 Passord pass = Passord.lagPassord(passord);
          bruker1.setPassord(pass);
-         
-         
+        
          
         
          brukerDAO.lagreNyBruker(bruker1);
